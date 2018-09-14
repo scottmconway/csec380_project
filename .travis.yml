@@ -11,6 +11,9 @@ addons:
 services:
   - docker
 
+before_install:
+  - chmod +x tests/helloworld/build.sh
+
 script:
   - whereis firefox
   - tests/helloworld/build.sh
