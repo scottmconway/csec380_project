@@ -1,3 +1,6 @@
+#
+# Description: Test that the NGINX container is running.
+#
 from selenium.webdriver import Firefox
 from selenium.webdriver.firefox.options import Options
 
