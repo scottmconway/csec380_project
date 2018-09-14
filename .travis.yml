@@ -12,6 +12,9 @@ services:
   - docker
 
 before_install:
+  - wget https://github.com/mozilla/geckodriver/releases/download/v0.21.0/geckodriver-v0.21.0-linux64.tar.gz
+  - tar xzf geckodriver-v0.21.0-linux64.tar.gz
+  - mv geckodriver /usr/local/bin/
   - chmod +x tests/helloworld/build.sh
   - pip install -r tests/helloworld/requirements.txt
 
