@@ -14,4 +14,4 @@ services:
 script:
   - whereis firefox
   - tests/helloworld/build.sh
-  - tests/helloworld/test.py
+  - python tests/helloworld/test.py
