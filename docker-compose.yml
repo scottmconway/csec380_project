@@ -1,0 +1,12 @@
+version: '3'
+services:
+  auth_app:
+    build:
+      context: ./Authentication
+    container_name: skitter/auth_app
+    networks:
+      - skitter
+
+networks:
+  skitters:
+    driver: bridge
