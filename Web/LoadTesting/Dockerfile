@@ -1,0 +1,1 @@
+FROM swernst/locusts:latest

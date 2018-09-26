@@ -1,0 +1,4 @@
+{
+    "target": "http://loadbalancer",
+    "locusts": ["WebsiteUser"]
+  }

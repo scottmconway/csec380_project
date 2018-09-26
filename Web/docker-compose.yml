@@ -1,0 +1,52 @@
+version: "3"
+services:
+  webserver1:
+    build:
+      context: ./WebServer/
+      dockerfile: Dockerfile
+    container_name: webserver1
+    networks:
+      - web-infrastructure
+
+  webserver2:
+    build:
+      context: ./WebServer/
+      dockerfile: Dockerfile
+    container_name: webserver2
+    networks:
+      - web-infrastructure
+
+  loadbalancer:
+    build:
+      context: ./LoadBalancer/
+      dockerfile: Dockerfile
+    container_name: loadbalancer
+    ports:
+      - "80:80"
+    networks:
+      - web-infrastructure
+
+  locust-master:
+    build:
+      context: ./LoadTesting/
+      dockerfile: Dockerfile
+    volumes:
+      - ./LoadTesting/scripts:/scripts
+    ports:
+      - "8089:8089"
+    networks:
+      - web-infrastructure
+
+  locust-worker:
+    build:
+      context: ./LoadTesting/
+      dockerfile: Dockerfile
+    command: "--master-host=locust-master"
+    volumes:
+      - ./LoadTesting/scripts:/scripts
+    networks:
+      - web-infrastructure
+
+networks:
+  web-infrastructure:
+    driver: bridge
