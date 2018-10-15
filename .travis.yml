@@ -18,6 +18,7 @@ before_install:
   - sudo mv geckodriver /usr/local/bin
   - chmod +x tests/helloworld/build.sh
   - chmod +x Authentication/tests/build.sh
+  - chmod +x Web/tests/build.sh
   - pip install -r tests/helloworld/requirements.txt
 
 script:
@@ -25,4 +26,7 @@ script:
   - tests/helloworld/build.sh
   - python tests/helloworld/test.py
   - Authentication/tests/build.sh
+  - sleep 10
   - python Authentication/tests/test.py
+  - Web/tests/build.sh
+  - python Web/tests/test.py
