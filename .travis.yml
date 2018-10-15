@@ -24,4 +24,5 @@ script:
   - whereis firefox
   - tests/helloworld/build.sh
   - python tests/helloworld/test.py
+  - Authentication/tests/build.sh
   - python Authentication/tests/test.py
