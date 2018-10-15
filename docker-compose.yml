@@ -46,7 +46,7 @@ services:
   auth_app:
     build:
       context: ./Authentication
-    container_name: skitter/auth_server
+    container_name: authserver
     ports:
       - "8080:8080"
     networks:

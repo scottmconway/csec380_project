@@ -3,7 +3,7 @@ services:
   auth_app:
     build:
       context: .
-    container_name: skitterTests/authServer
+    container_name: authservertest
     ports:
       - "8080:8080"
     networks:
