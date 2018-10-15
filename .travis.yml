@@ -25,8 +25,11 @@ script:
   - whereis firefox
   - tests/helloworld/build.sh
   - python tests/helloworld/test.py
+  - docker stop $(docker ps -aq)
   - Authentication/tests/build.sh
   - sleep 10
   - python Authentication/tests/test.py
+  - docker stop $(docker ps -aq)
   - Web/tests/build.sh
   - python Web/tests/test.py
+  - docker stop $(docker ps -aq)
