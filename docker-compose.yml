@@ -31,7 +31,7 @@ services:
     ports:
       - "8089:8089"
     networks:
-      - web-infrastructure
+      - skitter
 
   locust-worker:
     build:
@@ -41,7 +41,7 @@ services:
     volumes:
       - ./LoadTesting/scripts:/scripts
     networks:
-      - web-infrastructure
+      - skitter
 
   auth_app:
     build:
