@@ -36,6 +36,7 @@ script:
   - python Web/tests/test.py
   - docker stop $(docker ps -aq)
   - Database/Elastic/tests/build.sh
+  - sleep 20
   - python Database/Elastic/tests/test.py
   - docker stop $(docker ps -aq)
   - tests/skitter/build.sh
