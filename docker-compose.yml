@@ -17,13 +17,13 @@ services:
   loadbalancer:
     build:
       context: ./Web/Loadbalancer
-      container_name: skitterloadbalancer
+    container_name: skitterloadbalancer
     ports:
       - "80:80"
     networks:
       - skitter
 
-    locust-master:
+  locust-master:
     build:
       context: ./Web/LoadTesting/
     container_name: skitterlocustmaster
