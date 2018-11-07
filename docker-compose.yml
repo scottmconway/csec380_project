@@ -16,7 +16,7 @@ services:
 
   loadbalancer:
     build:
-      context: ./Web/Loadbalancer
+      context: ./Web/LoadBalancer
     container_name: skitterloadbalancer
     ports:
       - "80:80"
