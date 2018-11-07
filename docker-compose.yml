@@ -3,20 +3,21 @@ services:
   webserver1:
     build:
       context: ./Web/WebServer/
-    container_name: webserver1
+    container_name: skitterwebserver1
     networks:
      - skitter
 
   webserver2:
     build:
       context: ./Web/Webserver/
-    container_name: webserver2
+    container_name: skitterwebserver2
     networks:
      - skitter
 
   loadbalancer:
     build:
       context: ./Web/Loadbalancer
+      container_name: skitterloadbalancer
     ports:
       - "80:80"
     networks:
@@ -25,7 +26,7 @@ services:
     locust-master:
     build:
       context: ./Web/LoadTesting/
-      dockerfile: Dockerfile
+      container_name: skitterlocustmaster
     volumes:
       - ./LoadTesting/scripts:/scripts
     ports:
@@ -36,7 +37,7 @@ services:
   locust-worker:
     build:
       context: ./Web/LoadTesting/
-      dockerfile: Dockerfile
+      container_name: skitterlocustworker
     command: "--master-host=locust-master"
     volumes:
       - ./LoadTesting/scripts:/scripts
@@ -46,11 +47,20 @@ services:
   auth_app:
     build:
       context: ./Authentication
-    container_name: authserver
+    container_name: skitterauthserver
     ports:
       - "8080:8080"
     networks:
       - skitter
+
+  database:
+    image: mariadb:latest
+    volumes:
+      - ./Database/skitter.sql:/docker-entrypoint-initdb.d/skitter.sql
+      - ./Database/userdbdata:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=skitteradmin
+      - MYSQL_DATABASE=skitter
 
 networks:
   skitter:

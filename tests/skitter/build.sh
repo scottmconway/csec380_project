@@ -2,4 +2,6 @@
 
 cd $TRAVIS_BUILD_DIR
 
-docker-compose up
+docker-compose up -d
+
+docker ps
