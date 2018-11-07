@@ -9,7 +9,7 @@ services:
 
   webserver2:
     build:
-      context: ./Web/Webserver/
+      context: ./Web/WebServer/
     container_name: skitterwebserver2
     networks:
      - skitter
