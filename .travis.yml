@@ -19,6 +19,7 @@ before_install:
   - chmod +x tests/helloworld/build.sh
   - chmod +x Authentication/tests/build.sh
   - chmod +x Web/tests/build.sh
+  - chmod +x Database/Elastic/tests/build.sh
   - chmod +x tests/skitter/build.sh
   - pip install -r tests/helloworld/requirements.txt
 
@@ -33,6 +34,9 @@ script:
   - docker stop $(docker ps -aq)
   - Web/tests/build.sh
   - python Web/tests/test.py
+  - docker stop $(docker ps -aq)
+  - Database/Elastic/tests/build.sh
+  - python Database/Elastic/tests/test.py
   - docker stop $(docker ps -aq)
   - tests/skitter/build.sh
   - python tests/skitter/test.py

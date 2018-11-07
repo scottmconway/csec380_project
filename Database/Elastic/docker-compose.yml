@@ -1,0 +1,23 @@
+version: '3'
+services:
+  elastic:
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.4.3
+    container_name: elastictest
+    environment:
+      - cluster.name=skitter-test
+      - "ES_JAVA_OPTS=-Xms1G -Xms1G"
+    ports:
+      - 9200:9200
+    networks:
+      - test
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 262144
+        hard: 262144
+
+networks:
+  test:
+    driver: bridge
