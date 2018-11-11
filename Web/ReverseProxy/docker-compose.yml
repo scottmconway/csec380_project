@@ -1,0 +1,14 @@
+version: '3'
+services:
+  reverseproxy:
+    build:
+      context: .
+    container_name: skitterreverseproxy
+    ports:
+      - "80:80"
+    networks:
+      - reverseproxy
+
+networks:
+  reverseproxy:
+    driver: bridge
