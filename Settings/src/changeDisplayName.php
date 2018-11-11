@@ -11,13 +11,13 @@ if($user_id == "INVALID SESSION"){
         die("new_name is not set")
     }
 
-    $conn = new mysqli("127.0.0.1", "root", "skitteradmin", "skitter");
+    $conn = new mysqli("database", "root", "skitteradmin", "skitter");
         // Check connection
         if ($conn->connect_error) {
                 die("Connection failed: " . $conn->connect_error);
         }
 
         $stmt = $conn->prepare("UPDATE user SET (display_name) VALUES (?) WHERE user_id=?");
-        $stmt->bind_param("si", $new_name, $user_id);
+        $stmt->bind_param("si", $_GET['new_name'], $user_id);
         $stmt->execute();
 ?>	
