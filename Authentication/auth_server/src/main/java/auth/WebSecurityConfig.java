@@ -25,11 +25,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.userDnPatterns("uid={0},ou=people")
 				.groupSearchBase("ou=groups")
 				.contextSource()
-					.url("ldaps://ldap.rit.edu:636/dc=rit,dc=edu")
-					.and()
-				.passwordCompare()
-					.passwordEncoder(new LdapShaPasswordEncoder())
-					.passwordAttribute("userPassword");
+					.url("ldaps://ldap.rit.edu:636/dc=rit,dc=edu");
 	}
 
 }
