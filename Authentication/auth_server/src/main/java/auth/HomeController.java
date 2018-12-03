@@ -12,7 +12,12 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+
+import java.security.SecureRandom; 
+import java.lang.String;
 
 @RestController
 public class HomeController {
@@ -26,28 +31,66 @@ public class HomeController {
     @GetMapping(path="/createUser")
     public String registerUser(@RequestParam String name, @RequestParam String email, @RequestParam String password) {
 
-        /*User n = new User();
-        n.setName(name);
-        n.setEmail(email);
-        n.setPassword(password);    // TODO Replace with hashing, once I figure out how that works here
-        
-        userRepository.save(n);
-        return "Registered successfully?";*/
-        
-        Statement stmt = null;
         ResultSet rs = null;
         
         try {
             conn = DriverManager.getConnection("jdbc:mysql://database/skitter", "root", "skitteradmin");
-            stmt = conn.createStatement();
-            rs = stmt.executeQuery("DESCRIBE user");
+            Statement stmt = conn.createStatement();
+            PreparedStatement pstmt = null; 
+            // See if this email is already registered
+            // using prepared statements to avoid SQL injection
+            String query = "SELECT email FROM user WHERE email=?";
+            pstmt = conn.prepareStatement(query);
+            pstmt.setString(1, email);
 
-            // First find if a user exists with that email
-            // if so, return error
-            // Then make the user
-            // Generate session token
+            rs = pstmt.executeQuery();
+			ResultSetMetaData rsmd = rs.getMetaData();
+			
+            if (rs.next()) {
+                return "Error - email is already registered!";
+            }
+            
+            if (!(name.matches("^[a-zA-Z0-9]*$"))) {
+                return "Error - username is not alphanumeric!";
+            }
 
-            return rs.toString();
+            System.out.println("Registering new user");
+                            
+
+            SecureRandom rand = new SecureRandom(); 
+            int userID = rand.nextInt(10000);
+            int sessionID = rand.nextInt(10000);
+                
+            query = "SELECT user_id FROM user WHERE user_id=" + String.valueOf(userID);
+            rs = stmt.executeQuery(query);
+
+            // Make sure that the user and session IDs do not already exist in the table
+            while (rs.next()) {
+                userID = rand.nextInt(10000);
+                query = "SELECT user_id FROM user WHERE user_id=" + String.valueOf(userID);
+                rs = stmt.executeQuery(query);
+            }
+            
+            query = "SELECT user_id FROM user WHERE session_id=" + String.valueOf(sessionID);
+            rs = stmt.executeQuery(query);
+
+            while (rs.next()) {
+                sessionID = rand.nextInt(10000);
+                query = "SELECT user_id FROM user WHERE session_id=" + String.valueOf(sessionID);
+                rs = stmt.executeQuery(query);
+            }
+
+            query = "INSERT INTO user (user_id, username, displayname, email, password, session_id)VALUES (?, ?, ?, ?, ?, ?)";
+            pstmt = conn.prepareStatement(query);
+            pstmt.setInt(1, userID);
+            pstmt.setString(2, name);
+            pstmt.setString(3, name);
+            pstmt.setString(4, email);
+            pstmt.setString(5, password);
+            pstmt.setInt(6, sessionID);
+
+            pstmt.executeUpdate();
+            return String.valueOf(sessionID);
         }
         catch (Exception e) {
             e.printStackTrace();
